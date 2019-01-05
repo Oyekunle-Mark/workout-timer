@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Workout Timer</title>
+        <link type="text/css" href="css/index.css" />
+        <style>
+            body {
+                text-align: center;
+                padding-top: 100px;
+                font-family: sans-serif;
+                background-color: #D1E0EB;
+            }
+            
+            #timer {
+                width: 500px;
+                height: auto;
+                padding: 10px;
+                margin: 0 auto;
+                margin-bottom: 30px;
+                border: 5px solid #666;
+                border-radius: 20px;
+                font-family: monospace;
+                font-size: 100px;
+            }
+                
+            button {
+                background-color: #3A4764;
+                border-radius: 6px;
+                width: 120px;
+                height: 40px;
+                margin-right: 10px;
+                padding: 5px;
+                color: white;
+                font-size: 20px;
+                cursor: pointer;
+                border: none;
+                text-transform: uppercase;
+                box-shadow: 0 7px #999;
+            }
+
+            button:hover {
+                background-color: #59C1E3;
+            }
+
+            button:active {
+                background-color: #59C1E3;
+                transform: translateY(4px);
+                box-shadow: 0 4px #666;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="timer"></div>
+        <button onclick='start()'>start</button>
+        <button onclick='pause()'>pause</button>
+        <button onclick='cont()'>resume</button>
+        <button onclick='stop()'>stop</button>
+        
+        <script type="text/javascript">
+            const clockFace = document.querySelector('#timer')
+            clockFace.innerHTML = '00:00:00'
+            
+            this.session = true     //set true if timer has not started
+
+            var seconds = 0;        //used var to make seconds available to all functions
+            const pad = (val) => val > 9 ? val : '0' + val      //the padding function to add zeros to single digits
+
+            //starter function
+            let start = () => {     
+                
+                if (this.session === true) {
+                    this.set_time = setInterval(() => {
+                        seconds++
+                        clockFace.innerHTML = `${pad(Math.trunc(seconds/3600))}:${pad(Math.trunc(seconds/60) % 60)}:${pad(seconds % 60)}`
+                    }, 1000)
+
+                    this.session = false        //timer has started
+                }
+            }
+            
+            //pause function
+            let pause = () => {     
+                clearInterval(this.set_time)
+                this.session = true     //true because timer has been paused
+            }
+            
+            //the resume function
+            let cont = () => {      
+                start()
+                this.session = false    //timer resumed
+            }
+            
+            //the stop function
+            let stop = () => {      
+                clearInterval(this.set_time)
+                seconds = 0;        //restart timer
+                this.session = true
+                
+            }
+        </script>
+    </body>
+</html>
